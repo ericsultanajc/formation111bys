@@ -7,8 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
+@Table(name = "person")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
 public abstract class Personne {
@@ -19,6 +22,7 @@ public abstract class Personne {
 	private String prenom;
 	private String email;
 	private String telephone;
+	@Transient
 	private Adresse adresse;
 
 	public Personne() {

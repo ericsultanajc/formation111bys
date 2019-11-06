@@ -1,9 +1,12 @@
 package sopra.formation.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="rating")
@@ -11,9 +14,13 @@ public class Evaluation {
 	@Id
 	@GeneratedValue
 	private Long id;
+	@Column(name="behavior")
 	private Integer comportementale;
+	@Column(name="technical")
 	private Integer technique;
+	@Column(name="comments")
 	private String commentaires;
+	@OneToOne(mappedBy = "evaluation")
 	private Stagiaire stagiaire;
 
 	public Evaluation() {

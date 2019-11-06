@@ -4,15 +4,31 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+@Entity
+@Table(name="training")
 public class Filiere {
+	@Id
+	@GeneratedValue
 	private Long id;
 	private String intitule;
 	private String promotion;
 	private Date dtDebut;
 	private Integer duree;
 	private Dispositif dispositif;
+	@Transient
 	private List<Module> modules = new ArrayList<Module>();
+	@Transient
 	private List<Stagiaire> stagiaires = new ArrayList<Stagiaire>();
+	@ManyToOne
+	@JoinColumn(name="referent_id")
 	private Formateur referent;
 
 	public Filiere() {

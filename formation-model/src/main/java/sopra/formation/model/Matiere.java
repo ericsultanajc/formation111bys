@@ -3,13 +3,27 @@ package sopra.formation.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "subject")
 public class Matiere {
+	@Id
+	@Column(name = "name")
 	private String nom;
+	@Enumerated(EnumType.STRING)
 	private NiveauMatiere niveau;
 	private Integer duree;
 	private String preRequis;
 	private String objectifs;
 	private String programme;
+	@ManyToMany(mappedBy = "competences")
 	private List<Formateur> formateurs = new ArrayList<Formateur>();
 
 	public Matiere(String nom, NiveauMatiere niveau, Integer duree) {

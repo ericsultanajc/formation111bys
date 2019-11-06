@@ -4,13 +4,19 @@ import java.util.Date;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 @Entity
 @DiscriminatorValue("trainee")
 public class Stagiaire extends Personne {
 	private Date dtNaissance;
 	private NiveauEtude niveauEtude;
+	@Transient
 	private Filiere filiere;
+	@OneToOne
+	@JoinColumn(name="rating_id")
 	private Evaluation evaluation;
 
 	public Stagiaire() {

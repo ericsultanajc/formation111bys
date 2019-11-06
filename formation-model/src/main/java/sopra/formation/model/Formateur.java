@@ -5,13 +5,24 @@ import java.util.List;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 @Entity
 @DiscriminatorValue("trainer")
 public class Formateur extends Personne {
 	private int experience;
+	@OneToMany(mappedBy = "referent")
 	private List<Filiere> filieres = new ArrayList<Filiere>();
+	@Transient
 	private List<Module> modules = new ArrayList<Module>();
+	@ManyToMany
+	@JoinTable(name = "skill", 
+				joinColumns = @JoinColumn(name = "trainer_id"), 
+				inverseJoinColumns = @JoinColumn(name = "subject_name"))
 	private List<Matiere> competences = new ArrayList<Matiere>();
 
 	public Formateur(String nom, String prenom) {
