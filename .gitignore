@@ -6,3 +6,11 @@ formation-model/.project
 formation-model/.settings/
 
 formation-model/target/
+
+formation-data-jpa/.settings/
+
+formation-data-jpa/target/
+
+formation-data-jpa/.classpath
+
+formation-data-jpa/.project
