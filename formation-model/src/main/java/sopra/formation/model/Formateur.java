@@ -1,12 +1,18 @@
 package sopra.formation.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("trainer")
 public class Formateur extends Personne {
 	private int experience;
-	private ArrayList<Filiere> filieres = new ArrayList<Filiere>();
-	private ArrayList<Module> modules = new ArrayList<Module>();
-	private ArrayList<Matiere> competences = new ArrayList<Matiere>();
+	private List<Filiere> filieres = new ArrayList<Filiere>();
+	private List<Module> modules = new ArrayList<Module>();
+	private List<Matiere> competences = new ArrayList<Matiere>();
 
 	public Formateur(String nom, String prenom) {
 		super(nom, prenom);
@@ -25,27 +31,27 @@ public class Formateur extends Personne {
 		this.experience = experience;
 	}
 
-	public ArrayList<Filiere> getFilieres() {
+	public List<Filiere> getFilieres() {
 		return filieres;
 	}
 
-	public void setFilieres(ArrayList<Filiere> filieres) {
+	public void setFilieres(List<Filiere> filieres) {
 		this.filieres = filieres;
 	}
 
-	public ArrayList<Module> getModules() {
+	public List<Module> getModules() {
 		return modules;
 	}
 
-	public void setModules(ArrayList<Module> modules) {
+	public void setModules(List<Module> modules) {
 		this.modules = modules;
 	}
 
-	public ArrayList<Matiere> getCompetences() {
+	public List<Matiere> getCompetences() {
 		return competences;
 	}
 
-	public void setCompetences(ArrayList<Matiere> competences) {
+	public void setCompetences(List<Matiere> competences) {
 		this.competences = competences;
 	}
 

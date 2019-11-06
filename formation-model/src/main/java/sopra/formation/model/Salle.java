@@ -1,12 +1,13 @@
 package sopra.formation.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Salle {
 	private String nom;
 	private Integer capacite;
 	private Adresse adresse;
-	private ArrayList<Module> modules = new ArrayList<Module>();
+	private List<Module> modules = new ArrayList<Module>();
 
 	public Salle(String nom, Integer capacite) {
 		super();
@@ -38,11 +39,11 @@ public class Salle {
 		this.adresse = adresse;
 	}
 
-	public ArrayList<Module> getModules() {
+	public List<Module> getModules() {
 		return modules;
 	}
 
-	public void setModules(ArrayList<Module> modules) {
+	public void setModules(List<Module> modules) {
 		this.modules = modules;
 	}
 

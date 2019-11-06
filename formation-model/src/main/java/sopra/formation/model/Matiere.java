@@ -1,6 +1,7 @@
 package sopra.formation.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Matiere {
 	private String nom;
@@ -9,7 +10,7 @@ public class Matiere {
 	private String preRequis;
 	private String objectifs;
 	private String programme;
-	private ArrayList<Formateur> formateurs = new ArrayList<Formateur>();
+	private List<Formateur> formateurs = new ArrayList<Formateur>();
 
 	public Matiere(String nom, NiveauMatiere niveau, Integer duree) {
 		super();
@@ -66,11 +67,11 @@ public class Matiere {
 		this.programme = programme;
 	}
 
-	public ArrayList<Formateur> getFormateurs() {
+	public List<Formateur> getFormateurs() {
 		return formateurs;
 	}
 
-	public void setFormateurs(ArrayList<Formateur> formateurs) {
+	public void setFormateurs(List<Formateur> formateurs) {
 		this.formateurs = formateurs;
 	}
 
