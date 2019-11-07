@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 @Entity
 @Table(name = "classroom")
@@ -21,10 +22,16 @@ public class Salle {
 	@Id
 	@Column(name = "capacity")
 	private Integer capacite;
+	@Version
+	private int version;
 	@Embedded
 	private Adresse adresse;
 	@OneToMany(mappedBy = "salle")
 	private List<Module> modules = new ArrayList<Module>();
+
+	public Salle() {
+		super();
+	}
 
 	public Salle(String nom, Integer capacite) {
 		super();
@@ -42,6 +49,14 @@ public class Salle {
 
 	public int getCapacite() {
 		return capacite;
+	}
+	
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
 	}
 
 	public void setCapacite(Integer capacite) {

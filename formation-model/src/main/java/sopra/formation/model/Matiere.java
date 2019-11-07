@@ -8,12 +8,15 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 @Entity
 @Table(name = "subject")
 public class Matiere {
 	@EmbeddedId
 	private MatiereId id;
+	@Version
+	private int version;
 	@Column(name = "duration")
 	private Integer duree;
 	@Column(name = "requirement")
@@ -24,6 +27,10 @@ public class Matiere {
 	private String programme;
 	@ManyToMany(mappedBy = "competences")
 	private List<Formateur> formateurs = new ArrayList<Formateur>();
+
+	public Matiere() {
+		super();
+	}
 
 	public Matiere(String nom, NiveauMatiere niveau, Integer duree) {
 		super();
@@ -37,6 +44,14 @@ public class Matiere {
 
 	public void setId(MatiereId id) {
 		this.id = id;
+	}
+	
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
 	}
 
 	public Integer getDuree() {

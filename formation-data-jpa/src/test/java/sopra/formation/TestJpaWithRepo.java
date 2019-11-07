@@ -36,11 +36,11 @@ public class TestJpaWithRepo {
 	
 		System.out.println(middleNumber - startNumber);
 		
-		evaluationRepo.delete(evalSylvain);
+//		evaluationRepo.delete(evalSylvain);
 		
-		evalSylvainFind = evaluationRepo.find(evalSylvain.getId());
-
-		System.out.println(evalSylvainFind==null);
+//		evalSylvainFind = evaluationRepo.find(evalSylvain.getId());
+//
+//		System.out.println(evalSylvainFind==null);
 
 	}
 

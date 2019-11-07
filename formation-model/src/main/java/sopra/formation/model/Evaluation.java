@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 @Entity
 @Table(name = "rating")
@@ -13,6 +14,8 @@ public class Evaluation {
 	@Id
 	@GeneratedValue
 	private Long id;
+	@Version
+	private int version;
 	@Column(name = "behavior")
 	private Integer comportementale;
 	@Column(name = "technical")
@@ -39,6 +42,14 @@ public class Evaluation {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
 	}
 
 	public Integer getComportementale() {

@@ -7,12 +7,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 @Entity
 @Table(name = "module")
 public class Module {
 	@Id
 	private Integer code;
+	@Version
+	private int version;
 	@Column(name = "duration")
 	private Integer duree;
 	@Column(name = "position")
@@ -25,12 +28,16 @@ public class Module {
 	private Formateur formateur;
 	@ManyToOne
 	@JoinColumns({ @JoinColumn(name = "subject_name", referencedColumnName = "name"),
-		@JoinColumn(name = "subject_level", referencedColumnName = "level") })
+			@JoinColumn(name = "subject_level", referencedColumnName = "level") })
 	private Matiere matiere;
 	@ManyToOne
 	@JoinColumns({ @JoinColumn(name = "classroom_name", referencedColumnName = "name"),
 			@JoinColumn(name = "classroom_capacity", referencedColumnName = "capacity") })
 	private Salle salle;
+
+	public Module() {
+		super();
+	}
 
 	public Module(Integer code) {
 		super();
@@ -55,6 +62,14 @@ public class Module {
 
 	public void setCode(Integer code) {
 		this.code = code;
+	}
+	
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
 	}
 
 	public Integer getDuree() {
