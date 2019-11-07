@@ -1,12 +1,35 @@
 package sopra.formation.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "module")
 public class Module {
+	@Id
 	private Integer code;
+	@Column(name = "duration")
 	private Integer duree;
+	@Column(name = "position")
 	private Integer ordre;
+	@ManyToOne
+	@JoinColumn(name = "training_id")
 	private Filiere filiere;
+	@ManyToOne
+	@JoinColumn(name = "trainer_id")
 	private Formateur formateur;
+	@ManyToOne
+	@JoinColumns({ @JoinColumn(name = "subject_name", referencedColumnName = "name"),
+		@JoinColumn(name = "subject_level", referencedColumnName = "level") })
 	private Matiere matiere;
+	@ManyToOne
+	@JoinColumns({ @JoinColumn(name = "classroom_name", referencedColumnName = "name"),
+			@JoinColumn(name = "classroom_capacity", referencedColumnName = "capacity") })
 	private Salle salle;
 
 	public Module(Integer code) {

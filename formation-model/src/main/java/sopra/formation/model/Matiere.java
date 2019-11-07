@@ -4,49 +4,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "subject")
 public class Matiere {
-	@Id
-	@Column(name = "name")
-	private String nom;
-	@Enumerated(EnumType.STRING)
-	private NiveauMatiere niveau;
+	@EmbeddedId
+	private MatiereId id;
+	@Column(name = "duration")
 	private Integer duree;
+	@Column(name = "requirement")
 	private String preRequis;
+	@Column(name = "objectives")
 	private String objectifs;
+	@Column(name = "program")
 	private String programme;
 	@ManyToMany(mappedBy = "competences")
 	private List<Formateur> formateurs = new ArrayList<Formateur>();
 
 	public Matiere(String nom, NiveauMatiere niveau, Integer duree) {
 		super();
-		this.nom = nom;
-		this.niveau = niveau;
+		this.id = new MatiereId(nom, niveau);
 		this.duree = duree;
 	}
 
-	public String getNom() {
-		return nom;
+	public MatiereId getId() {
+		return id;
 	}
 
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
-
-	public NiveauMatiere getNiveau() {
-		return niveau;
-	}
-
-	public void setNiveau(NiveauMatiere niveau) {
-		this.niveau = niveau;
+	public void setId(MatiereId id) {
+		this.id = id;
 	}
 
 	public Integer getDuree() {

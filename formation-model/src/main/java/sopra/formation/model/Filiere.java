@@ -4,31 +4,41 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name="training")
+@Table(name = "training", uniqueConstraints = { @UniqueConstraint(columnNames = { "title", "startdate" }) })
 public class Filiere {
 	@Id
 	@GeneratedValue
 	private Long id;
+	@Column(name = "title")
 	private String intitule;
+	@Column(name = "prom")
 	private String promotion;
+	@Column(name = "startdate")
 	private Date dtDebut;
+	@Column(name = "duration")
 	private Integer duree;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "device")
 	private Dispositif dispositif;
-	@Transient
+	@OneToMany(mappedBy = "filiere")
 	private List<Module> modules = new ArrayList<Module>();
-	@Transient
+	@OneToMany(mappedBy = "filiere")
 	private List<Stagiaire> stagiaires = new ArrayList<Stagiaire>();
 	@ManyToOne
-	@JoinColumn(name="referent_id")
+	@JoinColumn(name = "referent_id")
 	private Formateur referent;
 
 	public Filiere() {
