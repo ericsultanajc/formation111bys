@@ -24,6 +24,10 @@ public class Formateur extends Personne {
 			@JoinColumn(name = "subject_level", referencedColumnName = "level") })
 	private List<Matiere> competences = new ArrayList<Matiere>();
 
+	public Formateur() {
+		super();
+	}
+
 	public Formateur(String nom, String prenom) {
 		super(nom, prenom);
 	}

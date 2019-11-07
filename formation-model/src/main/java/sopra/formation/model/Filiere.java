@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -35,7 +36,7 @@ public class Filiere {
 	private Dispositif dispositif;
 	@OneToMany(mappedBy = "filiere")
 	private List<Module> modules = new ArrayList<Module>();
-	@OneToMany(mappedBy = "filiere")
+	@OneToMany(mappedBy = "filiere" )
 	private List<Stagiaire> stagiaires = new ArrayList<Stagiaire>();
 	@ManyToOne
 	@JoinColumn(name = "referent_id")
