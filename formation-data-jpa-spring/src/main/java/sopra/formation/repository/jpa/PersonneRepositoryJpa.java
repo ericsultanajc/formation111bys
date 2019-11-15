@@ -3,268 +3,81 @@ package sopra.formation.repository.jpa;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import sopra.formation.model.Formateur;
 import sopra.formation.model.Personne;
 import sopra.formation.model.Stagiaire;
 import sopra.formation.repository.IPersonneRepository;
 
-//@Repository
+@Repository
+@Transactional
 public class PersonneRepositoryJpa implements IPersonneRepository {
 
+	@PersistenceContext
+	private EntityManager em;
+
 	@Override
+	@Transactional(readOnly = true)
 	public List<Personne> findAll() {
-		List<Personne> list = null;
+		TypedQuery<Personne> query = em.createQuery("from Personne", Personne.class);
 
-		EntityManager em = null;
-		EntityTransaction tx = null;
-
-		try {
-			em = Application.getInstance().getEmf().createEntityManager();
-			tx = em.getTransaction();
-
-			tx.begin();
-
-			TypedQuery<Personne> query = em.createQuery("from Personne", Personne.class);
-
-			list = query.getResultList();
-
-			tx.commit();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (tx != null && tx.isActive()) {
-				tx.rollback();
-			}
-		} finally {
-			if (em != null) {
-				em.close();
-			}
-		}
-
-		return list;
+		return query.getResultList();
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Personne find(Long id) {
-		Personne obj = null;
-
-		EntityManager em = null;
-		EntityTransaction tx = null;
-
-		try {
-			em = Application.getInstance().getEmf().createEntityManager();
-			tx = em.getTransaction();
-
-			tx.begin();
-
-			obj = em.find(Personne.class, id);
-
-			tx.commit();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (tx != null && tx.isActive()) {
-				tx.rollback();
-			}
-		} finally {
-			if (em != null) {
-				em.close();
-			}
-		}
-
-		return obj;
+		return em.find(Personne.class, id);
 	}
 
 	@Override
 	public Personne save(Personne obj) {
-		EntityManager em = null;
-		EntityTransaction tx = null;
-
-		try {
-			em = Application.getInstance().getEmf().createEntityManager();
-			tx = em.getTransaction();
-
-			tx.begin();
-
-			obj = em.merge(obj);
-
-			tx.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (tx != null && tx.isActive()) {
-				tx.rollback();
-			}
-		} finally {
-			if (em != null) {
-				em.close();
-			}
-		}
-		return obj;
+		return em.merge(obj);
 	}
 
 	@Override
 	public void delete(Personne obj) {
-		EntityManager em = null;
-		EntityTransaction tx = null;
-
-		try {
-			em = Application.getInstance().getEmf().createEntityManager();
-			tx = em.getTransaction();
-
-			tx.begin();
-
-			em.remove(em.merge(obj));
-
-			tx.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (tx != null && tx.isActive()) {
-				tx.rollback();
-			}
-		} finally {
-			if (em != null) {
-				em.close();
-			}
-		}
+		em.remove(em.merge(obj));
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<Stagiaire> findAllStagiaire() {
-		List<Stagiaire> list = null;
+		TypedQuery<Stagiaire> query = em.createQuery("from Stagiaire", Stagiaire.class);
 
-		EntityManager em = null;
-		EntityTransaction tx = null;
-
-		try {
-			em = Application.getInstance().getEmf().createEntityManager();
-			tx = em.getTransaction();
-
-			tx.begin();
-
-			TypedQuery<Stagiaire> query = em.createQuery("from Stagiaire", Stagiaire.class);
-
-			list = query.getResultList();
-
-			tx.commit();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (tx != null && tx.isActive()) {
-				tx.rollback();
-			}
-		} finally {
-			if (em != null) {
-				em.close();
-			}
-		}
-
-		return list;
+		return query.getResultList();
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<Formateur> findAllFormateur() {
-		List<Formateur> list = null;
+		TypedQuery<Formateur> query = em.createQuery("from Formateur", Formateur.class);
 
-		EntityManager em = null;
-		EntityTransaction tx = null;
-
-		try {
-			em = Application.getInstance().getEmf().createEntityManager();
-			tx = em.getTransaction();
-
-			tx.begin();
-
-			TypedQuery<Formateur> query = em.createQuery("from Formateur", Formateur.class);
-
-			list = query.getResultList();
-
-			tx.commit();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (tx != null && tx.isActive()) {
-				tx.rollback();
-			}
-		} finally {
-			if (em != null) {
-				em.close();
-			}
-		}
-
-		return list;
+		return query.getResultList();
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public <T> List<T> findAll(Class<T> clazz) {
-		List<T> list = null;
+		TypedQuery<T> query = em.createQuery("from " + clazz.getSimpleName(), clazz);
 
-		EntityManager em = null;
-		EntityTransaction tx = null;
-
-		try {
-			em = Application.getInstance().getEmf().createEntityManager();
-			tx = em.getTransaction();
-
-			tx.begin();
-
-			TypedQuery<T> query = em.createQuery("from " + clazz.getSimpleName(), clazz);
-
-			list = query.getResultList();
-
-			tx.commit();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (tx != null && tx.isActive()) {
-				tx.rollback();
-			}
-		} finally {
-			if (em != null) {
-				em.close();
-			}
-		}
-
-		return list;
+		return query.getResultList();
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Stagiaire findWithEvaluation(Long id) {
-		Stagiaire obj = null;
+		TypedQuery<Stagiaire> query = em.createQuery(
+				"select distinct s from Stagiaire s join fetch s.evaluation e where s.id = :id", Stagiaire.class);
 
-		EntityManager em = null;
-		EntityTransaction tx = null;
+		query.setParameter("id", id);
 
-		try {
-			em = Application.getInstance().getEmf().createEntityManager();
-			tx = em.getTransaction();
-
-			tx.begin();
-
-			TypedQuery<Stagiaire> query = em.createQuery("select distinct s from Stagiaire s join fetch s.evaluation e where s.id = :id", Stagiaire.class);
-
-			query.setParameter("id", id);
-			
-			obj = query.getSingleResult();
-
-			tx.commit();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (tx != null && tx.isActive()) {
-				tx.rollback();
-			}
-		} finally {
-			if (em != null) {
-				em.close();
-			}
-		}
-
-		return obj;
+		return query.getSingleResult();
 	}
 
 }
