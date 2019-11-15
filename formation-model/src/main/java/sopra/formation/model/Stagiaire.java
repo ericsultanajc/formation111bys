@@ -8,6 +8,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
@@ -23,10 +24,10 @@ public class Stagiaire extends Personne {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "studylevel")
 	private NiveauEtude niveauEtude;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "training_id")
 	private Filiere filiere;
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "rating_id")
 	private Evaluation evaluation;
 

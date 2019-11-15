@@ -6,12 +6,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
-import sopra.formation.Application;
+import org.springframework.stereotype.Repository;
+
 import sopra.formation.model.Formateur;
 import sopra.formation.model.Personne;
 import sopra.formation.model.Stagiaire;
 import sopra.formation.repository.IPersonneRepository;
 
+//@Repository
 public class PersonneRepositoryJpa implements IPersonneRepository {
 
 	@Override

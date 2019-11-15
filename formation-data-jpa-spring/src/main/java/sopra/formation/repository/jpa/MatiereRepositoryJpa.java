@@ -6,15 +6,16 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
-import sopra.formation.Application;
+import org.springframework.stereotype.Repository;
+
 import sopra.formation.model.Filiere;
 import sopra.formation.model.Matiere;
 import sopra.formation.model.MatiereId;
 import sopra.formation.repository.IMatiereRepository;
-import sopra.formation.repository.IModuleRepository;
 
+//@Repository
 public class MatiereRepositoryJpa implements IMatiereRepository {
-	
+
 	@Override
 	public List<Matiere> findAll() {
 		List<Matiere> list = null;
@@ -145,10 +146,11 @@ public class MatiereRepositoryJpa implements IMatiereRepository {
 
 			tx.begin();
 
-			TypedQuery<Matiere> query = em.createQuery("select distinct m.matiere from Module m join m.filiere f where f = :filiere", Matiere.class);
+			TypedQuery<Matiere> query = em.createQuery(
+					"select distinct m.matiere from Module m join m.filiere f where f = :filiere", Matiere.class);
 
 			query.setParameter("filiere", filiere);
-			
+
 			list = query.getResultList();
 
 			tx.commit();

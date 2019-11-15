@@ -6,18 +6,17 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
-import sopra.formation.Application;
-import sopra.formation.model.Filiere;
-import sopra.formation.model.Matiere;
-import sopra.formation.model.MatiereId;
-import sopra.formation.repository.IMatiereRepository;
+import org.springframework.stereotype.Repository;
+
+import sopra.formation.model.Module;
 import sopra.formation.repository.IModuleRepository;
 
-public class MatiereRepositoryJpa implements IMatiereRepository {
-	
+//@Repository
+public class ModuleRepositoryJpa implements IModuleRepository {
+
 	@Override
-	public List<Matiere> findAll() {
-		List<Matiere> list = null;
+	public List<Module> findAll() {
+		List<Module> list = null;
 
 		EntityManager em = null;
 		EntityTransaction tx = null;
@@ -28,7 +27,7 @@ public class MatiereRepositoryJpa implements IMatiereRepository {
 
 			tx.begin();
 
-			TypedQuery<Matiere> query = em.createQuery("from Matiere", Matiere.class);
+			TypedQuery<Module> query = em.createQuery("from Module", Module.class);
 
 			list = query.getResultList();
 
@@ -49,8 +48,8 @@ public class MatiereRepositoryJpa implements IMatiereRepository {
 	}
 
 	@Override
-	public Matiere find(MatiereId id) {
-		Matiere obj = null;
+	public Module find(Integer id) {
+		Module obj = null;
 
 		EntityManager em = null;
 		EntityTransaction tx = null;
@@ -61,7 +60,7 @@ public class MatiereRepositoryJpa implements IMatiereRepository {
 
 			tx.begin();
 
-			obj = em.find(Matiere.class, id);
+			obj = em.find(Module.class, id);
 
 			tx.commit();
 
@@ -80,7 +79,7 @@ public class MatiereRepositoryJpa implements IMatiereRepository {
 	}
 
 	@Override
-	public Matiere save(Matiere obj) {
+	public Module save(Module obj) {
 		EntityManager em = null;
 		EntityTransaction tx = null;
 
@@ -107,7 +106,7 @@ public class MatiereRepositoryJpa implements IMatiereRepository {
 	}
 
 	@Override
-	public void delete(Matiere obj) {
+	public void delete(Module obj) {
 		EntityManager em = null;
 		EntityTransaction tx = null;
 
@@ -130,41 +129,6 @@ public class MatiereRepositoryJpa implements IMatiereRepository {
 				em.close();
 			}
 		}
-	}
-
-	@Override
-	public List<Matiere> findAllByFiliere(Filiere filiere) {
-		List<Matiere> list = null;
-
-		EntityManager em = null;
-		EntityTransaction tx = null;
-
-		try {
-			em = Application.getInstance().getEmf().createEntityManager();
-			tx = em.getTransaction();
-
-			tx.begin();
-
-			TypedQuery<Matiere> query = em.createQuery("select distinct m.matiere from Module m join m.filiere f where f = :filiere", Matiere.class);
-
-			query.setParameter("filiere", filiere);
-			
-			list = query.getResultList();
-
-			tx.commit();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (tx != null && tx.isActive()) {
-				tx.rollback();
-			}
-		} finally {
-			if (em != null) {
-				em.close();
-			}
-		}
-
-		return list;
 	}
 
 }

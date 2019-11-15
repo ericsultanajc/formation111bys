@@ -2,6 +2,7 @@ package sopra.formation.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -22,7 +23,7 @@ public class Evaluation {
 	private Integer technique;
 	@Column(name = "comments")
 	private String commentaires;
-	@OneToOne(mappedBy = "evaluation")
+	@OneToOne(mappedBy = "evaluation", fetch = FetchType.LAZY)
 	private Stagiaire stagiaire;
 
 	public Evaluation() {

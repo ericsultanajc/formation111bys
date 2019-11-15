@@ -1,5 +1,6 @@
 package sopra.formation.repository.jpa;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -100,6 +101,7 @@ public class EvaluationRepositoryJpa implements IEvaluationRepository {
 				em.close();
 			}
 		}
+
 		return obj;
 	}
 
@@ -142,10 +144,11 @@ public class EvaluationRepositoryJpa implements IEvaluationRepository {
 
 			tx.begin();
 
-			TypedQuery<Evaluation> query = em.createQuery("from Evaluation e where e.comportementale = :note", Evaluation.class);
+			TypedQuery<Evaluation> query = em.createQuery("from Evaluation e where e.comportementale = :note",
+					Evaluation.class);
 
 			query.setParameter("note", comportementale);
-			
+
 			list = query.getResultList();
 
 			tx.commit();
@@ -177,11 +180,13 @@ public class EvaluationRepositoryJpa implements IEvaluationRepository {
 
 			tx.begin();
 
-			TypedQuery<Evaluation> query = em.createQuery("from Evaluation e where e.stagiaire.nom = :nom and e.stagiaire.prenom = :prenom", Evaluation.class);
+			TypedQuery<Evaluation> query = em.createQuery(
+					"from Evaluation e where e.stagiaire.nom = :nom and e.stagiaire.prenom = :prenom",
+					Evaluation.class);
 
 			query.setParameter("nom", nom);
 			query.setParameter("prenom", prenom);
-			
+
 			obj = query.getSingleResult();
 
 			tx.commit();
@@ -198,6 +203,43 @@ public class EvaluationRepositoryJpa implements IEvaluationRepository {
 		}
 
 		return obj;
+	}
+
+	@Override
+	public List<Evaluation> findAllByDtNaissance(Date dtNaissance) {
+		List<Evaluation> list = null;
+
+		EntityManager em = null;
+		EntityTransaction tx = null;
+
+		try {
+			em = Application.getInstance().getEmf().createEntityManager();
+			tx = em.getTransaction();
+
+			tx.begin();
+
+			TypedQuery<Evaluation> query = em.createQuery(
+					"select e from Evaluation e join fetch e.stagiaire s where s.dtNaissance > :dtNais",
+					Evaluation.class);
+
+			query.setParameter("dtNais", dtNaissance);
+
+			list = query.getResultList();
+
+			tx.commit();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (tx != null && tx.isActive()) {
+				tx.rollback();
+			}
+		} finally {
+			if (em != null) {
+				em.close();
+			}
+		}
+
+		return list;
 	}
 
 }
