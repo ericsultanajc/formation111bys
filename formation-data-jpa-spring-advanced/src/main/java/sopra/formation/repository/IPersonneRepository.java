@@ -10,15 +10,12 @@ import sopra.formation.model.Formateur;
 import sopra.formation.model.Personne;
 import sopra.formation.model.Stagiaire;
 
-public interface IPersonneRepository extends JpaRepository<Personne, Long> {
+public interface IPersonneRepository extends JpaRepository<Personne, Long>, IPersonneCustomRepository {
 	@Query("from Stagiaire")
 	List<Stagiaire> findAllStagiaire();
 
 	@Query("from Formateur")
 	List<Formateur> findAllFormateur();
-
-//	TODO à faire en mode custom
-//	<T> List<T> findAll(Class<T> clazz);
 
 	@Query("select distinct s from Stagiaire s join fetch s.evaluation e where s.id = :id")
 	Stagiaire findWithEvaluation(@Param("id") Long id);
