@@ -30,3 +30,11 @@ formation-data-jpa-spring-advanced/target/
 formation-data-jpa-spring-advanced/.classpath
 
 formation-data-jpa-spring-advanced/.project
+
+formation-web-inmemory/.classpath
+
+formation-web-inmemory/.project
+
+formation-web-inmemory/.settings/
+
+formation-web-inmemory/target/

@@ -30,6 +30,14 @@ public class Evaluation {
 		super();
 	}
 
+	public Evaluation(Long id, Integer comportementale, Integer technique, String commentaires) {
+		super();
+		this.id = id;
+		this.comportementale = comportementale;
+		this.technique = technique;
+		this.commentaires = commentaires;
+	}
+
 	public Evaluation(Integer comportementale, Integer technique, String commentaires) {
 		super();
 		this.comportementale = comportementale;
