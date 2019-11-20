@@ -37,6 +37,8 @@ public class Evaluation {
 		this.technique = technique;
 		this.commentaires = commentaires;
 	}
+	
+	
 
 	public Evaluation(Integer comportementale, Integer technique, String commentaires) {
 		super();

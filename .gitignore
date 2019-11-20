@@ -38,3 +38,11 @@ formation-web-inmemory/.project
 formation-web-inmemory/.settings/
 
 formation-web-inmemory/target/
+
+formation-web/.settings/
+
+formation-web/target/
+
+formation-web/.classpath
+
+formation-web/.project
