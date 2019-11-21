@@ -1,6 +1,9 @@
 package sopra.formation.web;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -9,19 +12,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import sopra.formation.model.Adresse;
 import sopra.formation.model.Evaluation;
+import sopra.formation.model.NiveauEtude;
+import sopra.formation.model.Stagiaire;
 import sopra.formation.repository.IEvaluationRepository;
+import sopra.formation.repository.IPersonneRepository;
 
-@WebServlet("/evaluation")
-public class EvaluationController extends HttpServlet {
+@WebServlet("/stagiaire")
+public class StagiaireController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private IEvaluationRepository evaluationRepo;
+	private IPersonneRepository personneRepo;
 
-	public EvaluationController() {
+	public StagiaireController() {
 		super();
 	}
 
@@ -30,6 +37,7 @@ public class EvaluationController extends HttpServlet {
 		ClassPathXmlApplicationContext springContext = (ClassPathXmlApplicationContext) getServletContext()
 				.getAttribute("springContext");
 		evaluationRepo = springContext.getBean(IEvaluationRepository.class);
+		personneRepo = springContext.getBean(IPersonneRepository.class);
 	}
 
 	// ETAPE 1 : Réception de la Request par le Controller
@@ -59,57 +67,87 @@ public class EvaluationController extends HttpServlet {
 	}
 
 	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// ETAPE 2 : Récupération des données
+		request.setAttribute("stagiaires", personneRepo.findAllStagiaire());
 
-		// ETAPE 3 : Remplir le Model
-		request.setAttribute("mesEvaluations", evaluationRepo.findAll());
-
-		// ETAPE 4 : Appel de la View
-		request.getRequestDispatcher("/WEB-INF/views/evaluation/list.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/stagiaire/list.jsp").forward(request, response);
 	}
 
 	private void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/views/evaluation/form.jsp").forward(request, response);
+		request.setAttribute("niveauEtudes", NiveauEtude.values());
+		request.setAttribute("evaluations", evaluationRepo.findAllOrphan());
+
+		request.getRequestDispatcher("/WEB-INF/views/stagiaire/form.jsp").forward(request, response);
 	}
 
 	private void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Long id = Long.valueOf(request.getParameter("id"));
 
-		request.setAttribute("monEvaluation", evaluationRepo.findById(id).get());
+		request.setAttribute("niveauEtudes", NiveauEtude.values());
+		request.setAttribute("evaluations", evaluationRepo.findAllOrphanAndCurrentStagiaire(id));
+		request.setAttribute("stagiaire", personneRepo.findById(id).get());
 
-		request.getRequestDispatcher("/WEB-INF/views/evaluation/form.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/stagiaire/form.jsp").forward(request, response);
 	}
 
 	private void save(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
 		Long id = (request.getParameter("id") != null && request.getParameter("id").length() > 0)
 				? Long.valueOf(request.getParameter("id"))
 				: null;
 		Integer version = (request.getParameter("version") != null && request.getParameter("version").length() > 0)
 				? Integer.valueOf(request.getParameter("version"))
 				: 0;
-		Integer comportementale = Integer.valueOf(request.getParameter("comportementale"));
-		Integer technique = Integer.valueOf(request.getParameter("technique"));
-		String commentaires = request.getParameter("commentaires");
+		String nom = request.getParameter("nom");
+		String prenom = request.getParameter("prenom");
+		String email = request.getParameter("email");
 
-		Evaluation evaluation = new Evaluation(id, comportementale, technique, commentaires);
-		evaluation.setVersion(version);
+		String telephone = request.getParameter("telephone");
+		Date dtNaissance = null;
+		try {
+			dtNaissance = request.getParameter("dtNaissance") != null
+					&& request.getParameter("dtNaissance").length() == 10
+							? sdf.parse(request.getParameter("dtNaissance"))
+							: null;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		NiveauEtude niveauEtude = (request.getParameter("niveauEtude") != null
+				&& !request.getParameter("niveauEtude").isEmpty())
+						? NiveauEtude.valueOf(request.getParameter("niveauEtude"))
+						: null;
 
-		evaluationRepo.save(evaluation);
+		String rue = request.getParameter("rue");
+		String complement = request.getParameter("complement");
+		String codePostal = request.getParameter("codePostal");
+		String ville = request.getParameter("ville");
+		
+		Long evaluationId = (request.getParameter("evaluation") != null && request.getParameter("evaluation").length() > 0)
+				? Long.valueOf(request.getParameter("evaluation"))
+				: null;
+				
+		Evaluation evaluation = new Evaluation();
+		evaluation.setId(evaluationId);
 
-		request.getRequestDispatcher("/evaluation?mode=list").forward(request, response);
+		Stagiaire stagiaire = new Stagiaire(id, version, nom, prenom, email, telephone,
+				new Adresse(rue, complement, codePostal, ville), dtNaissance, niveauEtude);
+		
+		stagiaire.setEvaluation(evaluation);
+
+		personneRepo.save(stagiaire);
+
+		request.getRequestDispatcher("/stagiaire?mode=list").forward(request, response);
 	}
 
 	private void cancel(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		list(request, response); 1ère solution
-//		request.getRequestDispatcher("/evaluation?mode=list").forward(request, response); 2ème solution
-		response.sendRedirect("evaluation?mode=list"); // 3ème solution par redirection du navigateur
+		response.sendRedirect("stagiaire?mode=list");
 	}
 
 	private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Long id = Long.valueOf(request.getParameter("id"));
 
-		evaluationRepo.deleteById(id);
+		personneRepo.deleteById(id);
 
-		request.getRequestDispatcher("/evaluation?mode=list").forward(request, response);
+		request.getRequestDispatcher("/stagiaire?mode=list").forward(request, response);
 	}
 }

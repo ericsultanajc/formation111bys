@@ -2,7 +2,6 @@ package sopra.formation.model;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -37,6 +36,13 @@ public class Stagiaire extends Personne {
 
 	public Stagiaire(String nom, String prenom) {
 		super(nom, prenom);
+	}
+
+	public Stagiaire(Long id, int version, String nom, String prenom, String email, String telephone, Adresse adresse,
+			Date dtNaissance, NiveauEtude niveauEtude) {
+		super(id, version, nom, prenom, email, telephone, adresse);
+		this.dtNaissance = dtNaissance;
+		this.niveauEtude = niveauEtude;
 	}
 
 	public Date getDtNaissance() {

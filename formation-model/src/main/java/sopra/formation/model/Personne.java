@@ -43,6 +43,17 @@ public abstract class Personne {
 		super();
 	}
 
+	public Personne(Long id, int version, String nom, String prenom, String email, String telephone, Adresse adresse) {
+		super();
+		this.id = id;
+		this.version = version;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.email = email;
+		this.telephone = telephone;
+		this.adresse = adresse;
+	}
+
 	public Personne(String nom, String prenom) {
 		super();
 		this.nom = nom;
@@ -56,7 +67,7 @@ public abstract class Personne {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public int getVersion() {
 		return version;
 	}
