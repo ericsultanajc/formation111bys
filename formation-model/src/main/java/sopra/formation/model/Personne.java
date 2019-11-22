@@ -13,6 +13,10 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.persistence.Version;
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "person")
@@ -25,18 +29,24 @@ public abstract class Personne {
 	@Version
 	private int version;
 	@Column(name = "lastname")
+	@NotEmpty(message="Nom obligatoire")
 	private String nom;
+	@NotEmpty(message="Prénom obligatoire")
 	@Column(name = "firstname")
 	private String prenom;
 	@Column(unique = true)
+	@NotEmpty(message="Courriel obligatoire")
+	@Email(message="Courriel mal formé")
 	private String email;
 	@Column(name = "phonenumber")
+	@Pattern(regexp = "^[0-9]{10}$", message = "Numéro sur 10 chiffres")
 	private String telephone;
 	@Embedded
 	@AttributeOverrides({ @AttributeOverride(name = "rue", column = @Column(name = "p_street")),
 			@AttributeOverride(name = "complement", column = @Column(name = "p_complement")),
 			@AttributeOverride(name = "codePostal", column = @Column(name = "p_zipcode")),
 			@AttributeOverride(name = "ville", column = @Column(name = "p_city")) })
+	@Valid
 	private Adresse adresse;
 
 	public Personne() {

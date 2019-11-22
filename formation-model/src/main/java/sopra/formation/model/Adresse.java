@@ -2,16 +2,20 @@ package sopra.formation.model;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.validation.constraints.NotEmpty;
 
 @Embeddable
 public class Adresse {
 	@Column(name = "street")
+	@NotEmpty(message="Rue obligatoire")
 	private String rue;
 	@Column(name = "complement")
 	private String complement;
 	@Column(name = "zipcode")
+	@NotEmpty(message="code postal obligatoire")
 	private String codePostal;
 	@Column(name = "city")
+	@NotEmpty(message="Ville obligatoire")
 	private String ville;
 
 	public Adresse() {

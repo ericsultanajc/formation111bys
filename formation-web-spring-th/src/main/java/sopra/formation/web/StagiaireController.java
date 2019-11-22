@@ -2,10 +2,12 @@ package sopra.formation.web;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,17 +52,29 @@ public class StagiaireController {
 	}
 
 	@GetMapping("/edit")
-	public String edit(@RequestParam("id") Long idEval, Model model) {
-		model.addAttribute("stagiaire", personneRepo.findById(idEval).get());
+	public String edit(@RequestParam("id") Long id, Model model) {
+		model.addAttribute("stagiaire", personneRepo.findById(id).get());
 		model.addAttribute("niveauEtudes", NiveauEtude.values());
 
-		model.addAttribute("evaluations", evaluationRepo.findAllOrphanAndCurrentStagiaire(idEval));
+		model.addAttribute("evaluations", evaluationRepo.findAllOrphanAndCurrentStagiaire(id));
 
 		return "stagiaire/form";
 	}
 
 	@PostMapping("/save")
-	public String save(@ModelAttribute("stagiaire") Stagiaire stagiaire) {
+	public String save(@ModelAttribute("stagiaire") @Valid Stagiaire stagiaire, BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			model.addAttribute("niveauEtudes", NiveauEtude.values());
+
+			if (stagiaire.getId() != null) {
+				model.addAttribute("evaluations", evaluationRepo.findAllOrphanAndCurrentStagiaire(stagiaire.getId()));
+			} else {
+				model.addAttribute("evaluations", evaluationRepo.findAllOrphan());
+			}
+
+			return "stagiaire/form";
+		}
+
 		personneRepo.save(stagiaire);
 
 		return "redirect:/stagiaire/list";

@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -22,6 +24,7 @@ public class Stagiaire extends Personne {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "birthdate")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Past(message = "date invalide")
 	private Date dtNaissance;
 	@Enumerated(EnumType.STRING)
 	@Column(name = "studylevel")
@@ -31,6 +34,7 @@ public class Stagiaire extends Personne {
 	private Filiere filiere;
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "rating_id")
+	@NotNull(message = "Obligatoire")
 	private Evaluation evaluation;
 
 	public Stagiaire() {
