@@ -49,14 +49,14 @@
 								<td>${stagiaire.adresse.complement}</td>
 								<td>${stagiaire.adresse.codePostal}</td>
 								<td>${stagiaire.adresse.ville}</td>
-								<td><div class="btn-group btn-group-sm"><a class="btn btn-primary" href="stagiaire?mode=edit&id=${stagiaire.id}"><i class="fa fa-edit"></i></a><a class="btn btn-danger" href="stagiaire?mode=delete&id=${stagiaire.id}"><i class="fa fa-trash"></i></a></div></td>
+								<td><div class="btn-group btn-group-sm"><a class="btn btn-primary" href="edit?id=${stagiaire.id}"><i class="fa fa-edit"></i></a><a class="btn btn-danger" href="delete?id=${stagiaire.id}"><i class="fa fa-trash"></i></a></div></td>
 							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
 			</div>
 			<div class="card-footer">
-				<a href="stagiaire?mode=add" class="btn btn-success btn-lg">
+				<a href="add" class="btn btn-success btn-lg">
 					<i class="fa fa-plus"></i>
 				</a>
 			</div>

@@ -14,8 +14,7 @@
 <body>
 
 	<div class="container">
-		<form action="stagiaire" method="post">
-			<input type="hidden" name="mode" value="save"> 
+		<form action="save" method="post">
 			<input type="hidden" name="id" value="${stagiaire.id}"> 
 			<input type="hidden" name="version" value="${stagiaire.version}">
 			<div id="filiereForm" class="card mt-3">
@@ -98,7 +97,7 @@
 						<button type="submit" class="btn btn-success">
 							<i class="fa fa-check"></i>
 						</button>
-						<a href="stagiaire?mode=cancel" class="btn btn-warning"> <i
+						<a href="cancel" class="btn btn-warning"> <i
 							class="fa fa-undo"></i>
 						</a>
 					</div>

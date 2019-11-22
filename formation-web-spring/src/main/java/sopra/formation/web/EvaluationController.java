@@ -22,6 +22,11 @@ public class EvaluationController {
 	public EvaluationController() {
 		super();
 	}
+	
+	@GetMapping("")
+	public String home() {
+		return "forward:list";
+	}
 
 	@GetMapping("/list")
 	public String list(Model model) {
