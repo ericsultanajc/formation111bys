@@ -1,16 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout.html">
 <head>
 <meta charset="UTF-8">
 <title>Liste des évaluations</title>
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
 </head>
 <body>
 
-	<div class="container">
+	<section layout:fragment="custom-content">
 		<div class="card mt-3">
 			<div class="card-header bg-info text-white">
 				<h2>Liste des évaluations</h2>
@@ -28,14 +26,20 @@
 						</tr>
 					</thead>
 					<tbody>
-							<tr th:each="eval : ${mesEvaluations}">
-								<td th:text="${eval.id}"></td>
-								<td>[[${eval.version}]]</td>
-								<td>[[${eval.comportementale}]]</td>
-								<td>[[${eval.technique}]]</td>
-								<td>[[${eval.commentaires}]]</td>
-								<td><div class="btn-group btn-group-sm"><a class="btn btn-primary" th:href="@{/evaluation/edit(id=${eval.id})}"><i class="fa fa-edit"></i></a><a class="btn btn-danger" th:href="@{/evaluation/delete(id=${eval.id})}"><i class="fa fa-trash"></i></a></div></td>
-							</tr>
+						<tr th:each="eval : ${mesEvaluations}">
+							<td th:text="${eval.id}"></td>
+							<td>[[${eval.version}]]</td>
+							<td>[[${eval.comportementale}]]</td>
+							<td>[[${eval.technique}]]</td>
+							<td>[[${eval.commentaires}]]</td>
+							<td><div class="btn-group btn-group-sm">
+									<a class="btn btn-primary"
+										th:href="@{/evaluation/edit(id=${eval.id})}"><i
+										class="fa fa-edit"></i></a><a class="btn btn-danger"
+										th:href="@{/evaluation/delete(id=${eval.id})}"><i
+										class="fa fa-trash"></i></a>
+								</div></td>
+						</tr>
 					</tbody>
 				</table>
 			</div>
@@ -45,6 +49,6 @@
 				</a>
 			</div>
 		</div>
-	</div>
+	</section>
 </body>
 </html>
