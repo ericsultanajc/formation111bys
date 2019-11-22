@@ -1,8 +1,5 @@
 package sopra.formation.web;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +7,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import sopra.formation.model.Adresse;
-import sopra.formation.model.Evaluation;
 import sopra.formation.model.NiveauEtude;
 import sopra.formation.model.Stagiaire;
 import sopra.formation.repository.IEvaluationRepository;
@@ -64,20 +60,7 @@ public class StagiaireController {
 	}
 
 	@PostMapping("/save")
-	public String save(@RequestParam Long id, @RequestParam int version, @RequestParam String nom,
-			@RequestParam String prenom, @RequestParam String email, @RequestParam String telephone,
-			@RequestParam String rue, @RequestParam String complement, @RequestParam String codePostal,
-			@RequestParam String ville, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date dtNaissance,
-			@RequestParam NiveauEtude niveauEtude, @RequestParam("evaluation") Long idEvaluation) {
-
-		Stagiaire stagiaire = null;
-		stagiaire = new Stagiaire(id, version, nom, prenom, email, telephone,
-				new Adresse(rue, complement, codePostal, ville), dtNaissance, niveauEtude);
-		stagiaire.setVersion(version);
-
-		Evaluation evaluation = evaluationRepo.findById(idEvaluation).get();
-		stagiaire.setEvaluation(evaluation);
-
+	public String save(@ModelAttribute("stagiaire") Stagiaire stagiaire) {
 		personneRepo.save(stagiaire);
 
 		return "redirect:/stagiaire/list";

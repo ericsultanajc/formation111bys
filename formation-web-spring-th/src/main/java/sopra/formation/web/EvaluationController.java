@@ -2,10 +2,14 @@ package sopra.formation.web;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,12 +57,11 @@ public class EvaluationController {
 	}
 
 	@PostMapping("/save")
-	public String save(@RequestParam Long id, @RequestParam int version, @RequestParam Integer comportementale,
-			@RequestParam Integer technique, @RequestParam String commentaires) {
-
-		Evaluation evaluation = new Evaluation(id, comportementale, technique, commentaires);
-		evaluation.setVersion(version);
-
+	public String save(@ModelAttribute("monEvaluation") @Valid Evaluation evaluation, BindingResult result) {
+		if(result.hasErrors()) {
+			return "evaluation/form";
+		}
+		
 		evaluationRepo.save(evaluation);
 
 		return "redirect:/evaluation/list";

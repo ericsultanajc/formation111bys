@@ -1,7 +1,5 @@
 package sopra.formation.web;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -75,8 +73,10 @@ public class StagiaireController {
 				new Adresse(rue, complement, codePostal, ville), dtNaissance, niveauEtude);
 		stagiaire.setVersion(version);
 
-		Evaluation evaluation = evaluationRepo.findById(idEvaluation).get();
-		stagiaire.setEvaluation(evaluation);
+		if (idEvaluation != null) {
+			Evaluation evaluation = evaluationRepo.findById(idEvaluation).get();
+			stagiaire.setEvaluation(evaluation);
+		}
 
 		personneRepo.save(stagiaire);
 

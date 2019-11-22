@@ -8,6 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "rating")
@@ -18,9 +22,13 @@ public class Evaluation {
 	@Version
 	private int version;
 	@Column(name = "behavior")
+	@NotNull(message = "Obligatoire")
+	@Min(value = 0, message = ">= 0")
+	@Max(value = 20, message = "<=20")
 	private Integer comportementale;
 	@Column(name = "technical")
 	private Integer technique;
+	@Size(min = 1, message = "Au moins un caractère")
 	@Column(name = "comments")
 	private String commentaires;
 	@OneToOne(mappedBy = "evaluation", fetch = FetchType.LAZY)

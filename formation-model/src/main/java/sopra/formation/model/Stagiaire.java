@@ -14,11 +14,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @DiscriminatorValue("trainee")
 public class Stagiaire extends Personne {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "birthdate")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dtNaissance;
 	@Enumerated(EnumType.STRING)
 	@Column(name = "studylevel")
