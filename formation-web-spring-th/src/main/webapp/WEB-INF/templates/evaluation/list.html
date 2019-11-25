@@ -4,24 +4,24 @@
 	layout:decorator="layout.html">
 <head>
 <meta charset="UTF-8">
-<title>Liste des évaluations</title>
+<title>[[#{evaluation.list.title}]]</title>
 </head>
 <body>
 
 	<section layout:fragment="custom-content">
 		<div class="card mt-3">
 			<div class="card-header bg-info text-white">
-				<h2>Liste des évaluations</h2>
+				<h2>[[#{evaluation.list.titleBis}]]</h2>
 			</div>
 			<div class="card-body">
 				<table id="filiereTable" class="table table-striped">
 					<thead>
 						<tr>
-							<th>Identifiant</th>
-							<th>Version</th>
-							<th>Comportementale</th>
-							<th>Technique</th>
-							<th>Commentaires</th>
+							<th>[[#{evaluation.list.id}]]</th>
+							<th>[[#{evaluation.list.version}]]</th>
+							<th>[[#{evaluation.list.comportementale}]]</th>
+							<th>[[#{evaluation.list.technique}]]</th>
+							<th>[[#{evaluation.list.commentaires}]]</th>
 							<th></th>
 						</tr>
 					</thead>

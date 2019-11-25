@@ -34,7 +34,7 @@ public class Stagiaire extends Personne {
 	private Filiere filiere;
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "rating_id")
-	@NotNull(message = "Obligatoire")
+//	@NotNull(message = "Obligatoire")
 	private Evaluation evaluation;
 
 	public Stagiaire() {

@@ -4,7 +4,7 @@
 	layout:decorator="layout.html">
 <head>
 <meta charset="UTF-8">
-<title>Edition de l'évaluation</title>
+<title>[[#{evaluation.form.title}]]</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <link rel="stylesheet"
@@ -19,11 +19,11 @@
 				th:value="${monEvaluation.version}">
 			<div id="filiereForm" class="card mt-3">
 				<div class="card-header bg-info text-white">
-					<h3>Edition de l'évaluation</h3>
+					<h3>[[#{evaluation.form.titleBis}]]</h3>
 				</div>
 				<div class="card-body">
 					<div class="form-group">
-						<label for="intitule">Note comportementale:</label> <input
+						<label for="intitule">[[#{evaluation.form.comportementale}]]</label> <input
 							type="number" class="form-control" id="comportementale"
 							name="comportementale"
 							th:value="${monEvaluation.comportementale}">
@@ -31,14 +31,14 @@
 							th:errors="${monEvaluation.comportementale}"></span>
 					</div>
 					<div class="form-group">
-						<label for="promotion">Note technique:</label> <input
+						<label for="promotion">[[#{evaluation.form.technique}]]</label> <input
 							type="number" class="form-control" id="technique"
 							name="technique" th:value="${monEvaluation.technique}">
 						<span class="text-danger"
 							th:errors="${monEvaluation.technique}"></span>
 					</div>
 					<div class="form-group">
-						<label for="dtDebut">Commentaires:</label> <input type="text"
+						<label for="dtDebut">[[#{evaluation.form.commentaires}]]</label> <input type="text"
 							class="form-control" id="commentaires" name="commentaires"
 							th:value="${monEvaluation.commentaires}">
 						<span class="text-danger"

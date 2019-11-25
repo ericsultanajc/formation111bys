@@ -18,6 +18,7 @@ import sopra.formation.model.NiveauEtude;
 import sopra.formation.model.Stagiaire;
 import sopra.formation.repository.IEvaluationRepository;
 import sopra.formation.repository.IPersonneRepository;
+import sopra.formation.validator.StagiaireValidator;
 
 @Controller
 @RequestMapping("/stagiaire")
@@ -63,6 +64,8 @@ public class StagiaireController {
 
 	@PostMapping("/save")
 	public String save(@ModelAttribute("stagiaire") @Valid Stagiaire stagiaire, BindingResult result, Model model) {
+		new StagiaireValidator().validate(stagiaire, result);
+		
 		if (result.hasErrors()) {
 			model.addAttribute("niveauEtudes", NiveauEtude.values());
 
@@ -73,6 +76,10 @@ public class StagiaireController {
 			}
 
 			return "stagiaire/form";
+		}
+		
+		if(stagiaire.getEvaluation().getId()==null) {
+			stagiaire.setEvaluation(null);
 		}
 
 		personneRepo.save(stagiaire);

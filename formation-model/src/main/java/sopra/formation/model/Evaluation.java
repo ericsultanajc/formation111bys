@@ -22,13 +22,13 @@ public class Evaluation {
 	@Version
 	private int version;
 	@Column(name = "behavior")
-	@NotNull(message = "Obligatoire")
-	@Min(value = 0, message = ">= 0")
-	@Max(value = 20, message = "<=20")
+	@NotNull(message = "{evaluation.comportementale.notnull}")
+	@Min(value = 0, message = "{evaluation.comportementale.min}")
+	@Max(value = 20, message = "{evaluation.comportementale.max}")
 	private Integer comportementale;
 	@Column(name = "technical")
 	private Integer technique;
-	@Size(min = 1, message = "Au moins un caractère")
+	@Size(min = 1, message = "{evaluation.commentaires.size}")
 	@Column(name = "comments")
 	private String commentaires;
 	@OneToOne(mappedBy = "evaluation", fetch = FetchType.LAZY)
